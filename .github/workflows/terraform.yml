@@ -6,9 +6,9 @@ on:
 
 jobs:
   terraform-bootstrap:
-    if: github.event.head_commit.message == 'Bootstrap'
     name: Bootstrap Backend Infra
     runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, 'run bootstrap')
 
     steps:
       - name: Checkout repository
@@ -33,7 +33,7 @@ jobs:
   terraform-infra:
     name: Provision IAM Infra
     runs-on: ubuntu-latest
-    needs: terraform-bootstrap
+    needs: [terraform-bootstrap]
 
     steps:
       - name: Checkout repository
