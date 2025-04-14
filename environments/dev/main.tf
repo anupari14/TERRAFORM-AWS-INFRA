@@ -5,4 +5,5 @@ provider "aws" {
 module "iam_users" {
   source    = "../../modules/iam"
   usernames = var.usernames
+  environment = "dev"
 }
