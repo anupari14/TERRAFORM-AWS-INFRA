@@ -16,5 +16,5 @@ output "iam_user_credentials" {
       secret_access_key = aws_iam_access_key.this[username].secret
     }
   }
-  sensitive = true
+  sensitive = false
 }
