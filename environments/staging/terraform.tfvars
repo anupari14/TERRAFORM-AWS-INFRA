@@ -1,0 +1,1 @@
+usernames = ["stg_user1", "stg_user2"]
