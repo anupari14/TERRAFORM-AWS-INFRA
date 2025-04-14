@@ -1,40 +1,65 @@
-name: Terraform Deploy
+name: Terraform AWS Infra Pipeline
 
 on:
   push:
     branches: [main]
 
 jobs:
-  terraform:
-    name: 'Terraform Apply'
+  terraform-bootstrap:
+    name: Bootstrap Backend Infra
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_wrapper: false # Ensures compatibility with Terraform CLI
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.5
 
-    - name: Terraform Init
-      run: terraform init
-      working-directory: environments/dev
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Terraform Init (Bootstrap)
+        working-directory: bootstrap
+        run: terraform init
 
-    - name: Terraform Plan
-      run: terraform plan -var-file="terraform.tfvars"
-      working-directory: environments/dev
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Terraform Apply (Bootstrap)
+        working-directory: bootstrap
+        run: terraform apply -auto-approve
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - name: Terraform Apply
-      run: terraform apply -auto-approve -var-file="terraform.tfvars"
-      working-directory: environments/dev
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  terraform-infra:
+    name: Provision IAM Infra
+    runs-on: ubuntu-latest
+    needs: terraform-bootstrap
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.5
+
+      - name: Terraform Init (Remote Backend)
+        working-directory: environments/dev
+        run: terraform init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Terraform Plan
+        working-directory: environments/dev
+        run: terraform plan -var-file="terraform.tfvars"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Terraform Apply
+        working-directory: environments/dev
+        run: terraform apply -auto-approve -var-file="terraform.tfvars"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
