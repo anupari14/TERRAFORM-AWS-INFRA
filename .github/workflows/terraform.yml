@@ -19,7 +19,7 @@ jobs:
         terraform_wrapper: false # Ensures compatibility with Terraform CLI
 
     - name: Terraform Init
-      run: terraform init -backend-config="backend.tf"
+      run: terraform init
       working-directory: environments/dev
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
