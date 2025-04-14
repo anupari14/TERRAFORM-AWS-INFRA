@@ -3,11 +3,11 @@ variable "region" {
 }
 
 variable "bucket_name" {
-  default = "my-iac-terraform-state"
+  default = "ccfraud-iac-terraform-state"
 }
 
 variable "lock_table_name" {
-  default = "terraform-locks"
+  default = "ccfraud-terraform-locks"
 }
 
 variable "tags" {

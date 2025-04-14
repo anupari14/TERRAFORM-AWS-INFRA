@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "my-iac-terraform-state"
+    bucket         = "ccfraud-iac-terraform-state"
     key            = "env/terraform.tfstate"
     region         = "ap-southeast-2"
-    dynamodb_table = "terraform-locks"
+    dynamodb_table = "ccfraud-terraform-locks"
     encrypt        = true
   }
 }
