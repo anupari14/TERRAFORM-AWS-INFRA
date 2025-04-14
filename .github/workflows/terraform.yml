@@ -15,9 +15,11 @@ jobs:
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_wrapper: false # Ensures compatibility with Terraform CLI
 
     - name: Terraform Init
-      run: terraform init
+      run: terraform init -backend-config="backend.tfvars"
       working-directory: environments/dev
 
     - name: Terraform Plan
