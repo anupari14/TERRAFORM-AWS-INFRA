@@ -6,4 +6,4 @@ output "iam_user_secrets" {
     for user, secret in aws_secretsmanager_secret.iam_secrets :
     user => secret.arn
   }
-}
+} 
