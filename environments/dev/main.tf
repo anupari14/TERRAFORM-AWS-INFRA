@@ -20,4 +20,5 @@ module "rds_postgres" {
   username    = "postgresadmin"
   password    = "securepass123!"
   allowed_cidrs = ["0.0.0.0/0"]
+  publicly_accessible = true
 }
