@@ -13,3 +13,8 @@ variable "allowed_cidrs" {
   type = list(string)
   default = ["0.0.0.0/0"]  # For dev, replace with your IPs for prod
 }
+variable "aws_region" {
+  type    = string
+  default = "ap-southeast-2"  # or your actual region
+}
+
