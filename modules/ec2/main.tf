@@ -30,6 +30,13 @@ resource "aws_security_group" "ec2_sg" {
     cidr_blocks = var.allowed_cidrs
   }
 
+  ingress {
+  from_port   = 8000
+  to_port     = 8000
+  protocol    = "tcp"
+  cidr_blocks = var.allowed_cidrs
+}
+
   egress {
     from_port   = 0
     to_port     = 0
