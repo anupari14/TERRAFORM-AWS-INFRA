@@ -8,11 +8,6 @@ module "iam_users" {
   environment = "dev"
 }
 
-module "vpc" {
-  source              = "../../modules/vpc"
-  environment         = "dev"
-}
-
 module "rds_postgres" {
   source      = "../../modules/rds"
   environment = "dev"
