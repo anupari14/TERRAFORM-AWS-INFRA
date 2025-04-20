@@ -21,5 +21,4 @@ module "rds_postgres" {
   password    = "securepass123!"
   vpc_id      = module.vpc.vpc_id
   subnet_ids  = module.vpc.private_subnet_ids
-  allowed_cidrs = ["10.0.0.0/16"]
 }
