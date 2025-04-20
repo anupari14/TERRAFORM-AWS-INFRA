@@ -19,6 +19,7 @@ module "rds_postgres" {
   db_name     = "ccfraud"
   username    = "postgresadmin"
   password    = "securepass123!"
-  allowed_cidrs = ["0.0.0.0/0"]
-  publicly_accessible = true
+  vpc_id      = module.vpc.vpc_id
+  subnet_ids  = module.vpc.private_subnet_ids
+  allowed_cidrs = ["10.0.0.0/16"]
 }

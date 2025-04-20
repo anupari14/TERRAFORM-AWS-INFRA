@@ -30,11 +30,6 @@ resource "aws_security_group" "rds_sg" {
   }
 }
 
-variable "publicly_accessible" {
-  type    = bool
-  default = false
-}
-
 resource "aws_db_instance" "postgres" {
   identifier         = "${var.environment}-postgres-db"
   engine             = "postgres"
@@ -52,8 +47,7 @@ resource "aws_db_instance" "postgres" {
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
 
   skip_final_snapshot = true
-  publicly_accessible = var.publicly_accessible
-  subnet_ids = module.vpc.public_subnet_ids
+  publicly_accessible = false
 
   tags = {
     Name = "${var.environment}-postgres-db"
