@@ -1,4 +1,4 @@
 usernames = ["anu", "boudy", "prajakta","anusha"]
 allowed_cidrs = [
-  "0.0.0.0/0",   # all Ip allowed 
+  "116.88.41.29",   # all Ip allowed 
 ]
