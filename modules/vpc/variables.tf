@@ -1,6 +1,6 @@
 variable "environment" {}
 variable "vpc_cidr" {
-  default = "10.0.0.0/16"
+  default = "0.0.0.0/0"
 }
 
 variable "public_subnet_cidrs" {
