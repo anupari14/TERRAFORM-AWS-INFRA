@@ -1,7 +1,4 @@
 variable "environment" {}
-variable "ami_id" {
-  description = "AMI ID for Ubuntu 22.04"
-}
 variable "subnet_id" {
   description = "Public subnet to launch instance in"
 }
