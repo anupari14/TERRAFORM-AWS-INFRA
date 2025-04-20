@@ -53,14 +53,3 @@ resource "aws_db_instance" "postgres" {
     Name = "${var.environment}-postgres-db"
   }
 }
-
-resource "null_resource" "init_schemas" {
-  depends_on = [aws_db_instance.postgres]
-
-  provisioner "local-exec" {
-    command = <<EOT
-PGPASSWORD=${var.password} psql -h ${aws_db_instance.postgres.address} -U ${var.username} -d ${var.db_name} -p 5432 -c "CREATE SCHEMA IF NOT EXISTS \"as-is-data-schema\";"
-PGPASSWORD=${var.password} psql -h ${aws_db_instance.postgres.address} -U ${var.username} -d ${var.db_name} -p 5432 -c "CREATE SCHEMA IF NOT EXISTS \"curated-data-schema\";"
-EOT
-  }
-}
